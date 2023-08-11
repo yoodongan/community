@@ -1,0 +1,18 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/community?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul&useOldAliasMetadataBehavior=true&zeroDateTimeBehavior=convertToNull
+    username: root
+    password: 12341234
+    config:
+      activate:
+        on-profile: "dev"
+  mvc:
+    view:
+      prefix: /WEB-INF/view/
+      suffix: .jsp
+  thymeleaf:
+    enabled: false
+mybatis:
+  type-aliases-package: com.brad.community.vo
+  mapper-locations: classpath:mybatis/mapper/**/*.xml
