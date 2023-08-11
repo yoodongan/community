@@ -10,6 +10,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Member {
     private Long id;
+
+    private String regDate;
+    private String updateDate;
+
     private String loginId;
 
     @JsonIgnore

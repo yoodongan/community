@@ -12,4 +12,19 @@
         cellphoneNo = #{cellphoneNo},
         email = #{email}
     </insert>
+
+    <select id="getLastInsertId" resultType="Long">
+        SELECT LAST_INSERT_ID()
+    </select>
+
+    <select id="findById" resultType="Member">
+        SELECT * FROM MEMBER AS `m`
+        WHERE m.id = #{id}
+    </select>
+
+    <!-- 회원가입 시 중복 로그인 아이디 체크를 위해 필요함 -->
+    <select id="findByLoginId" resultType="Member">
+        SELECT * FROM MEMBER
+        WHERE loginId = #{loginId}
+    </select>
 </mapper>
