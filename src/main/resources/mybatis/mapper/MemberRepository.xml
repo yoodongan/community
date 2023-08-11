@@ -27,4 +27,9 @@
         SELECT * FROM MEMBER
         WHERE loginId = #{loginId}
     </select>
+    <select id="findByNameAndEmail" resultType="Member">
+        SELECT * FROM MEMBER
+        WHERE name = #{name} AND email = #{email}
+    </select>
+
 </mapper>

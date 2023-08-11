@@ -14,4 +14,6 @@ public interface MemberRepository {
     Member findById(@Param("id") Long memberId);
 
     Member findByLoginId(@Param("loginId") String loginId);
+
+    Member findByNameAndEmail(@Param("name") String name, @Param("email") String email);
 }
