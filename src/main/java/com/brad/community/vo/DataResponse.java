@@ -3,7 +3,6 @@ package com.brad.community.vo;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
 @AllArgsConstructor
@@ -14,7 +13,7 @@ public class DataResponse<T> {
     private T data;
 
     // 성공 응답
-    public static DataResponse of(String responseCode, String msg, Object data) {
+    public static <T> DataResponse<T> of(String responseCode, String msg, T data) {
         return new DataResponse<>(responseCode, msg, data);
     }
     // 실패 응답 : data가 null이 들어간다.
@@ -22,7 +21,7 @@ public class DataResponse<T> {
         return of(responseCode, msg, null);
     }
 
-    public static DataResponse ofNew(DataResponse dataResponse, Object newData) {
+    public static <T> DataResponse<T> ofNew(DataResponse dataResponse, T newData) {
         return of(dataResponse.getResponseCode(), dataResponse.getMsg(), newData);
     }
 
