@@ -9,7 +9,7 @@
         `body` = #{body}
     </insert>
 
-    <select id="getArticle" resultType="Long">
+    <select id="getArticle" resultType="Article">
         SELECT * FROM article
         WHERE 1
           AND id = #{id}
