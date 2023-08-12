@@ -21,6 +21,11 @@ public class DataResponse<T> {
     public static DataResponse of(String responseCode, String msg) {
         return of(responseCode, msg, null);
     }
+
+    public static DataResponse ofNew(DataResponse dataResponse, Object newData) {
+        return of(dataResponse.getResponseCode(), dataResponse.getMsg(), newData);
+    }
+
     // 응답 객체가 성공인지 확인하는 메서드, "S-" 로 시작하면 성공이다.
     public boolean isSuccess() {
         return responseCode.startsWith("S-");

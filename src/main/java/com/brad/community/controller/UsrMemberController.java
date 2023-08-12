@@ -1,6 +1,8 @@
 package com.brad.community.controller;
 
 import com.brad.community.service.MemberService;
+import com.brad.community.util.Ut;
+import com.brad.community.vo.DataResponse;
 import com.brad.community.vo.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -15,12 +17,12 @@ public class UsrMemberController {
 
     @RequestMapping("/doJoin")
     @ResponseBody
-    public Object doJoin(String loginId, String loginPw, String name, String nickname, String cellphoneNo, String email) {
-        Long memberId = memberService.join(loginId, loginPw, name, nickname, cellphoneNo, email);
-        if(memberId == 0L) return "로그인 ID가 중복되었습니다.";
-        if(memberId == -1L) return "이름과 email이 중복입니다.";
-        Member member = memberService.findById(memberId);
-        return member;
+    public DataResponse doJoin(String loginId, String loginPw, String name, String nickname, String cellphoneNo, String email) {
+        if(Ut.isEmpty(loginId)) return DataResponse.of("F-1", "로그인 id를 입력해주세요.");
+        if(Ut.isEmpty(loginPw)) return DataResponse.of("F-1", "비밀번호를 입력해주세요.");
+        DataResponse dataResponse = memberService.join(loginId, loginPw, name, nickname, cellphoneNo, email);
+        Member member = memberService.findById((Long) dataResponse.getData()); // Service의 메서드는 가급적 해당 기능만 수행해야 한다. (단일 책임 원칙)
+        return DataResponse.ofNew(dataResponse, member);
     }
 
 }
