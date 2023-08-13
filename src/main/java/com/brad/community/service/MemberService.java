@@ -35,4 +35,10 @@ public class MemberService {
     public Member findById(Long memberId) {
         return memberRepository.findById(memberId);
     }
+
+    public DataResponse findByLoginId(String loginId) {
+        Member member = memberRepository.findByLoginId(loginId);
+        if(member == null) return DataResponse.of("F-1", "존재하지 않는 로그인 id 입니다.");
+        return DataResponse.of("S-1", "존재하는 로그인 id입니다.", member);
+    }
 }
