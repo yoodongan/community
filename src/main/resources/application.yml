@@ -9,7 +9,7 @@ spring:
         on-profile: "dev"
   mvc:
     view:
-      prefix: /WEB-INF/view/
+      prefix: /WEB-INF/views/
       suffix: .jsp
   thymeleaf:
     enabled: false
