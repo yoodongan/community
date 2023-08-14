@@ -14,8 +14,8 @@ public class ArticleService {
         this.articleRepository = articleRepository;
     }
 
-    public Long writeArticle(String title, String body) {
-        articleRepository.writeArticle(title, body);
+    public Long writeArticle(Long memberId, String title, String body) {
+        articleRepository.writeArticle(memberId, title, body);
         return articleRepository.getLastInsertId();
     }
     public List<Article> getArticles() {
@@ -32,5 +32,20 @@ public class ArticleService {
 
     public void modifyArticle(Long id, String title, String body) {
         articleRepository.modifyArticle(id, title, body);
+    }
+
+    /* 회원이 게시물 삭제가 가능한지 판별하는 메서드 */
+    public boolean canDelete(Long memberId, Article article) {
+        if (!article.getMemberId().equals(memberId)) {
+            return false;  // 회원 아이디가 다르면, 해당 게시물 삭제할 권한이 없다.
+        }
+        return true;
+    }
+
+    public boolean canModify(Long memberId, Article article) {
+        if (!article.getMemberId().equals(memberId)) {
+            return false;  // 회원 아이디가 다르면, 해당 게시물 삭제할 권한이 없다.
+        }
+        return true;
     }
 }

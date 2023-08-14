@@ -37,17 +37,23 @@ email = 'user2@test.com';
 INSERT INTO article
 SET regDate = NOW(),
 updateDate = NOW(),
+memberId = 2,
 title = '제목1',
 `body` = '내용1';
 
 INSERT INTO article
 SET regDate = NOW(),
 updateDate = NOW(),
+memberId = 3,
 title = '제목2',
 `body` = '내용2';
 
 INSERT INTO article
 SET regDate = NOW(),
 updateDate = NOW(),
+memberId = 3,
 title = '제목3',
 `body` = '내용3';
+
+# article 테이블 시퀀스 초기화
+alter table article auto_increment = 1;
