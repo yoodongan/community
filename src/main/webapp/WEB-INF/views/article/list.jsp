@@ -9,10 +9,10 @@
         <table class="w-full">
             <colgroup>
                 <col width="50"/>
-                <col width="150"/>
-                <col />
-                <col width="150"/>
-                <col width="150"/>
+                <col width="200"/>
+                <col width="100"/>
+                <col width="100"/>
+                <col width="100"/>
             </colgroup>
             <thead>
             <tr>
