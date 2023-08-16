@@ -22,7 +22,6 @@ public class UsrArticleController {
     @RequestMapping("/doAdd")
     @ResponseBody
     public DataResponse<Article> doAdd(HttpSession session, String title, String body) {
-        boolean isLogin = false;
         if(session.getAttribute("loginMemberId") == null) {
             return DataResponse.of("F-Authentication", "로그인 후 이용해주세요.");
         }
@@ -54,7 +53,7 @@ public class UsrArticleController {
     }
 
     @RequestMapping("/list")
-    public String showList(Model model) {
+    public String showList(HttpSession session, Model model) {
         List<Article> articles = articleService.findArticlesWithWriterName();
         model.addAttribute("articles", articles);
         return "article/list";
@@ -102,8 +101,13 @@ public class UsrArticleController {
     }
 
     @RequestMapping("/detail")
-    public String showDetail(Model model, Long id) {
-        Article article = articleService.findArticleWithWriterName(id);
+    public String showDetail(HttpSession session, Model model, Long id) {
+        Long loginMemberId = 0L;  // 0으로 찾으면, 게시물 조회가 안된다.(아래 메서드에서 예외 처리)
+        if(session.getAttribute("loginMemberId") != null) {
+            loginMemberId = (Long) session.getAttribute("loginMemberId");
+        }
+
+        Article article = articleService.findArticleWithWriterName(loginMemberId, id);
         model.addAttribute("article", article);
         return "article/detail";
     }

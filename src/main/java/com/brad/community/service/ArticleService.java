@@ -25,11 +25,16 @@ public class ArticleService {
         return articleRepository.findArticlesWithWriterName();
     }
 
-    public Article findArticleWithWriterName(Long articleId) {
-        return articleRepository.findArticleWithWriterName(articleId);
-
+    public Article findArticleWithWriterName(Long memberId, Long articleId) {
+        Article article = articleRepository.findArticleWithWriterName(articleId);
+        updateCanDelete(memberId, article);
+        return article;
     }
-
+    private void updateCanDelete(Long memberId, Article article) {
+        if(article == null) return;
+        boolean canDelete = canDelete(memberId, article);
+        article.setTemp_canDelete(canDelete); // 삭제가 가능하면, Article에 임시로 만들어 둔 boolean 필드가 true로 세팅된다. 지울 수 있다는 뜻.
+    }
     public Article getArticle(Long id) {
         return articleRepository.getArticle(id);
     }

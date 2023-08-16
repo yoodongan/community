@@ -39,8 +39,21 @@
                 </tr>
             </table>
         </div>
-        <div class="mt-3">
+        <div class="mt-3 flex justify-between">
             <button class="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded" onclick="history.back();">뒤로 가기</button>
+            <div class="mt-2">
+                <c:if test="${article.temp_canDelete}">
+                <a
+                   href="../article/doModify?id=${article.id}"
+                   class="mr-3 h-10 bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded">
+                    수정하기
+                </a>
+                <a onclick="if (confirm('정말 삭제하시겠습니까?') == false) return false;"
+                   href="../article/doDelete?id=${article.id}"
+                   class="h-10 bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded">
+                    삭제하기</a>
+                </c:if>
+            </div>
         </div>
     </div>
 

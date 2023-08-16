@@ -16,4 +16,5 @@ public class Article {
     private String body;
 
     private String temp_writerName;
+    private boolean temp_canDelete;
 }
