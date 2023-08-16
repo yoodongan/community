@@ -6,6 +6,7 @@ import com.brad.community.vo.Article;
 import com.brad.community.vo.DataResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -52,6 +53,13 @@ public class UsrArticleController {
         return DataResponse.of("S-1", Ut.f("%d번 게시물입니다.", id), article);
     }
 
+    @RequestMapping("/list")
+    public String showList(Model model) {
+        List<Article> articles = articleService.findArticlesWithWriterName();
+        model.addAttribute("articles", articles);
+        return "article/list";
+    }
+
     @RequestMapping("/doDelete")
     @ResponseBody
     public DataResponse doDelete(HttpSession session, Long id) {
@@ -91,5 +99,12 @@ public class UsrArticleController {
 
         articleService.modifyArticle(id, title, body);
         return DataResponse.of("S-1", Ut.f("%d번 게시물이 수정되었습니다.", id));
+    }
+
+    @RequestMapping("/detail")
+    public String showDetail(Model model, Long id) {
+        Article article = articleService.findArticleWithWriterName(id);
+        model.addAttribute("article", article);
+        return "article/detail";
     }
 }

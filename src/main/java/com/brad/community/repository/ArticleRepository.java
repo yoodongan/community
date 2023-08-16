@@ -13,4 +13,9 @@ public interface ArticleRepository {
     public List<Article> getArticles();
     public void deleteArticle(Long id);
     Long getLastInsertId();
+
+    // 작성자명을 출력해야 하므로, Member의 작성자명을 가져온다.
+    List<Article> findArticlesWithWriterName();
+
+    Article findArticleWithWriterName(@Param("id") Long articleId);
 }

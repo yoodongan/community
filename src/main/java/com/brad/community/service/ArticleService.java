@@ -21,6 +21,14 @@ public class ArticleService {
     public List<Article> getArticles() {
         return articleRepository.getArticles();
     }
+    public List<Article> findArticlesWithWriterName() {
+        return articleRepository.findArticlesWithWriterName();
+    }
+
+    public Article findArticleWithWriterName(Long articleId) {
+        return articleRepository.findArticleWithWriterName(articleId);
+
+    }
 
     public Article getArticle(Long id) {
         return articleRepository.getArticle(id);
