@@ -5,24 +5,30 @@
 
 <%@ include file="../common/head.jspf"%>
 
-<div class="p-10 xs:p-0 mx-auto md:w-full md:max-w-md">
+<form method="post" action="../member/doLogin" class="p-10 xs:p-0 mx-auto md:w-full md:max-w-md">
     <div class="bg-gray-200 w-full rounded-lg divide-y divide-gray-200 p-5">
         <h1 class="font-bold text-center text-2xl">Community Service</h1>
         <div class="px-5 py-7">
-            <label class="font-semibold text-sm text-gray-600 pb-1 block">ID</label>
-            <input type="text" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full" />
-            <label class="font-semibold text-sm text-gray-600 pb-1 block">Password</label>
-            <input type="text" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full" />
-            <button type="button" class="transition duration-200 bg-green-500 hover:bg-green-600 focus:bg-green-700 focus:shadow-sm focus:ring-4 focus:ring-green-500 focus:ring-opacity-50 text-white w-full py-2.5 rounded-lg text-sm shadow-sm hover:shadow-md font-semibold text-center inline-block">
+            <c:if test="${!req.isLogin()}">
+            <label class="font-semibold text-sm text-gray-600 pb-1 block">아이디</label>
+            <input name="loginId" placeholder="아이디를 입력해주세요." type="text" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full" />
+            <label class="font-semibold text-sm text-gray-600 pb-1 block">비밀번호</label>
+            <input name="loginPw" placeholder="비밀번호를 입력해주세요." type="password" class="border rounded-lg px-3 py-2 mt-1 mb-5 text-sm w-full" />
+            </c:if>
+
+            <c:if test="${!req.isLogin()}">
+            <button type="submit" class="transition duration-200 bg-green-500 hover:bg-green-600 focus:bg-green-700 focus:shadow-sm focus:ring-4 focus:ring-green-500 focus:ring-opacity-50 text-white w-full py-2.5 rounded-lg text-sm shadow-sm hover:shadow-md font-semibold text-center inline-block">
                 <span class="inline-block mr-2">Login</span>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-4 h-4 inline-block">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
             </button>
-
-            <button type="button" class="mt-3 transition duration-200 bg-green-500 hover:bg-green-600 focus:bg-green-700 focus:shadow-sm focus:ring-4 focus:ring-green-500 focus:ring-opacity-50 text-white w-full py-2.5 rounded-lg text-sm shadow-sm hover:shadow-md font-semibold text-center inline-block">
+            </c:if>
+            <c:if test="${req.isLogin()}">
+            <button type="button" onclick="location.href='../member/doLogout'" class="mt-3 transition duration-200 bg-green-500 hover:bg-green-600 focus:bg-green-700 focus:shadow-sm focus:ring-4 focus:ring-green-500 focus:ring-opacity-50 text-white w-full py-2.5 rounded-lg text-sm shadow-sm hover:shadow-md font-semibold text-center inline-block">
                 <span class="inline-block mr-2">Logout</span>
             </button>
+            </c:if>
         </div>
 
         <div class="grid grid-cols-2 gap-1">
@@ -39,9 +45,7 @@
                 </button>
             </div>
         </div>
-
     </div>
-
-</div>
+</form>
 
 <%@ include file="../common/foot.jspf"%>

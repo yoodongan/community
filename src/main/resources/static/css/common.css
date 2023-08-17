@@ -17,3 +17,7 @@ html > body {
 .table-1 > table td a:hover {
     text-decoration: underline;
 }
+
+input[type=password] {
+    font-family: ".SF NS Mono";
+}

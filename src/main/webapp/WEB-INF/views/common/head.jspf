@@ -31,7 +31,12 @@
             <ul class="flex items-center">
                 <li><a href="/" class="px-3 hover:underline">홈</a></li>
                 <li><a href="/usr/article/list" class="px-3 hover:underline">게시물 전체 조회</a></li>
-                <li><a href="/usr/member/doLogin" class="px-3 hover:underline">로그인</a></li>
+                <c:if test="${!req.isLogin()}">
+                    <li><a href="/usr/member/login" class="px-3 hover:underline">로그인</a></li>
+                </c:if>
+                <c:if test="${req.isLogin()}">
+                    <li><a href="/usr/member/doLogout" class="px-3 hover:underline">로그아웃</a></li>
+                </c:if>
             </ul>
         </div>
     </header>
