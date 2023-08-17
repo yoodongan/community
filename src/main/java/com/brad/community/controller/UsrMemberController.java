@@ -6,6 +6,7 @@ import com.brad.community.vo.DataResponse;
 import com.brad.community.vo.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -25,6 +26,11 @@ public class UsrMemberController {
         DataResponse dataResponse = memberService.join(loginId, loginPw, name, nickname, cellphoneNo, email);
         Member member = memberService.findById((Long) dataResponse.getData()); // Service의 메서드는 가급적 해당 기능만 수행해야 한다. (단일 책임 원칙)
         return DataResponse.ofNew(dataResponse, member);
+    }
+
+    @GetMapping("/login")
+    public String showLogin() {
+        return "/member/login";
     }
 
     @RequestMapping("/doLogin")
