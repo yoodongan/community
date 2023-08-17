@@ -12,4 +12,27 @@ public class Ut {
     public static String f(String format, Object... args) {
         return String.format(format, args);
     }
+
+    public static String historyBack(String msg) {
+        if(msg == null) msg = "";
+        return Ut.f("""
+                <script>
+                let msg = '%s'.trim();
+                if (msg.length > 0) alert(msg); 
+                history.back();
+                </script>
+                """, msg);
+    }
+
+    public static String replace(String msg, String url) {
+        if(msg == null) msg = "";
+        if(url == null) url ="";
+        return Ut.f("""
+                <script>
+                let msg = '%s'.trim();
+                if (msg.length > 0) alert(msg); 
+                location.replace('%s');
+                </script>
+                """, msg, url);
+    }
 }
