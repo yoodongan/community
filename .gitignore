@@ -56,3 +56,8 @@ buildNumber.properties
 .DS_Store
 .AppleDouble
 .LSOverride
+
+# custom 추가
+bin/
+LOG_PATH_IS_UNDEFINED/
+log/
