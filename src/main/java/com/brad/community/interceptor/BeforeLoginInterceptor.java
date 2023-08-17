@@ -8,11 +8,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Component
-public class BeforeActionInterceptor implements HandlerInterceptor {
+public class BeforeLoginInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        Req req = new Req(request, response);
-        request.setAttribute("req",req);
+        System.out.println("실행되었나 ?");
+        Req req = (Req) request.getAttribute("req");
+        if(!req.isLogin()) {
+            req.printHistoryBack("로그인 후 이용해주세요.");
+            return false;
+        }
         return HandlerInterceptor.super.preHandle(request, response, handler);
     }
 }

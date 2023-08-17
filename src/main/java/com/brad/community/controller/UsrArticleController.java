@@ -25,10 +25,6 @@ public class UsrArticleController {
     public DataResponse<Article> doAdd(HttpServletRequest request, String title, String body) {
         Req req = (Req) request.getAttribute("req");
 
-        if(!req.isLogin()) {
-            return DataResponse.of("F-Authentication", "로그인 후 이용해주세요.");
-        }
-
         if (Ut.isEmpty(title)) return DataResponse.of("F-1", "게시물 제목을 입력해주세요.");
         if (Ut.isEmpty(body)) return DataResponse.of("F-1", "게시물 내용을 입력해주세요.");
 
@@ -65,9 +61,6 @@ public class UsrArticleController {
     @ResponseBody
     public String doDelete(HttpServletRequest request, Long id) {
         Req req = (Req) request.getAttribute("req");
-        if(!req.isLogin()) {
-            return Ut.historyBack("로그인 후 이용해주세요");
-        }
 
         Article article = articleService.getArticle(id);
         if(article == null) {
@@ -85,9 +78,6 @@ public class UsrArticleController {
     @ResponseBody
     public DataResponse doModify(HttpServletRequest request, Long id, String title, String body) {
         Req req = (Req) request.getAttribute("req");
-        if(!req.isLogin()) {
-            return DataResponse.of("F-Authentication", "로그인 후 이용해주세요.");
-        }
 
         Article article = articleService.getArticle(id);
         if(article == null) {
