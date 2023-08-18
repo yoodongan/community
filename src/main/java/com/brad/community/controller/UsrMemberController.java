@@ -4,13 +4,14 @@ import com.brad.community.service.MemberService;
 import com.brad.community.util.Ut;
 import com.brad.community.vo.DataResponse;
 import com.brad.community.vo.Member;
+import com.brad.community.vo.Req;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("/usr/member")
@@ -34,33 +35,34 @@ public class UsrMemberController {
     }
 
     @RequestMapping("/doLogin")
-    @ResponseBody
-    public DataResponse doLogin(HttpSession session, String loginId, String loginPw) {
+    public String doLogin(HttpServletRequest request, String loginId, String loginPw) {
+        Req req = (Req) request.getAttribute("req");
         boolean isLogin = false;
-        if (session.getAttribute("loginMemberId") != null) {
+        if(req.getLoginMemberId() != null) {
             isLogin = true;
         }
-        if (isLogin) return DataResponse.of("F-2", "이미 로그인했습니다!");
-        if (Ut.isEmpty(loginId)) return DataResponse.of("F-1", "로그인 id를 입력해주세요.");
-        if (Ut.isEmpty(loginPw)) return DataResponse.of("F-2", "비밀번호를 입력해주세요.");
+
+        if (isLogin) Ut.historyBack("이미 로그인했습니다!");
+        if (Ut.isEmpty(loginId)) Ut.historyBack("로그인 id를 입력해주세요.");
+        if (Ut.isEmpty(loginPw)) Ut.historyBack("비밀번호를 입력해주세요.");
 
         DataResponse dataResponse = memberService.findByLoginId(loginId);
         Member member = (Member) dataResponse.getData();
-        if (!member.getLoginPw().equals(loginPw)) return DataResponse.of("F-1", "비밀번호가 일치하지 않습니다.");
+        if (!member.getLoginPw().equals(loginPw)) Ut.historyBack("비밀번호가 일치하지 않습니다.");
 
-        session.setAttribute("loginMemberId", member.getId());
-        return DataResponse.of("S-1", Ut.f("%s님 환영합니다.", member.getNickname()));
+        req.login(member);  // 이제, 여기서 session.setAttribute()를 진행한다.
+        return "redirect:/usr/article/list";
     }
 
     @RequestMapping("/doLogout")
-    @ResponseBody
-    public DataResponse doLogout(HttpSession session) {
+    public String doLogout(HttpServletRequest request) {
+        Req req = (Req) request.getAttribute("req");
         boolean isLogout = false; // 로그아웃 여부
-        if (session.getAttribute("loginMemberId") == null) isLogout = true;
-        if(isLogout) return DataResponse.of("F-1", "이미 로그아웃 되었습니다.");
-
+        if (req.getLoginMemberId() == null) isLogout = true;
+        if(isLogout) Ut.historyBack("이미 로그아웃 되었습니다.");
         // 로그아웃 처리
-        session.removeAttribute("loginMemberId");
-        return DataResponse.of("S-1", "로그아웃 되었습니다.");
+        req.logout();
+        Ut.historyBack("로그아웃 되었습니다!");
+        return "redirect:/usr/article/list";
     }
 }
