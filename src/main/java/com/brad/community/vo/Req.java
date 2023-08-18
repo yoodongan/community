@@ -12,20 +12,28 @@ import java.io.IOException;
 public class Req {
     private Long loginMemberId;
     private boolean isLogin;
-
     private HttpServletRequest request;
     private HttpServletResponse response;
+    private HttpSession session;
     public Req(HttpServletRequest request, HttpServletResponse response) {
         this.request = request;
         this.response = response;
         loginMemberId = 0L;
         isLogin = false;
-        HttpSession session = request.getSession();
+        this.session = request.getSession();  // 세션 객체를 가져와야 NPE가 발생하지 않는다.
         if(session.getAttribute("loginMemberId") != null) {
             isLogin = true;
             loginMemberId = (Long) session.getAttribute("loginMemberId");
         }
     }
+    /* 로그인, 로그아웃을 통한 세션 관리를 Req 클래스에서 관리한다. */
+    public void login(Member member) {
+        session.setAttribute("loginMemberId", member.getId());
+    }
+    public void logout() {
+        session.removeAttribute("loginMemberId");
+    }
+
 
     public void printHistoryBack(String msg) {
         response.setContentType("text/html; charset=UTF-8");

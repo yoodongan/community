@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 public class BeforeLoginInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        System.out.println("실행되었나 ?");
         Req req = (Req) request.getAttribute("req");
         if(!req.isLogin()) {
             req.printHistoryBack("로그인 후 이용해주세요.");
