@@ -20,17 +20,20 @@ import java.util.List;
 public class UsrArticleController {
     private final ArticleService articleService;
 
-    @RequestMapping("/doAdd")
+    @RequestMapping("/write")
+    public String showWriteForm() {
+        return "article/write";
+    }
+
+    @RequestMapping("/doWrite")
     @ResponseBody
-    public DataResponse<Article> doAdd(HttpServletRequest request, String title, String body) {
+    public String doWrite(HttpServletRequest request, String title, String body) {
         Req req = (Req) request.getAttribute("req");
 
-        if (Ut.isEmpty(title)) return DataResponse.of("F-1", "게시물 제목을 입력해주세요.");
-        if (Ut.isEmpty(body)) return DataResponse.of("F-1", "게시물 내용을 입력해주세요.");
-
+        if (Ut.isEmpty(title)) Ut.historyBack("게시물 제목을 입력해주세요.");
+        if (Ut.isEmpty(body)) Ut.historyBack("게시물 내용을 입력해주세요.");
         Long articleId = articleService.writeArticle(req.getLoginMemberId(), title, body);
-        Article article = articleService.getArticle(articleId);
-        return DataResponse.of("S-1", Ut.f("%d번 게시물이 생성되었습니다.", articleId), article);
+        return Ut.replace(Ut.f("%d번 게시물이 생성되었습니다.", articleId), "../article/list");
     }
 
     @RequestMapping("/getArticles")
