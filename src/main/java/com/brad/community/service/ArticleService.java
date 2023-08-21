@@ -35,8 +35,8 @@ public class ArticleService {
         boolean canDelete = canDelete(memberId, article);
         article.setTemp_canDelete(canDelete); // 삭제가 가능하면, Article에 임시로 만들어 둔 boolean 필드가 true로 세팅된다. 지울 수 있다는 뜻.
     }
-    public Article getArticle(Long id) {
-        return articleRepository.getArticle(id);
+    public Article findById(Long id) {
+        return articleRepository.findById(id);
     }
 
     public void deleteArticle(Long id) {
