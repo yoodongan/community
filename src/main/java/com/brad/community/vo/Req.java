@@ -1,5 +1,6 @@
 package com.brad.community.vo;
 
+import com.brad.community.service.MemberService;
 import com.brad.community.util.Ut;
 import lombok.*;
 
@@ -14,16 +15,21 @@ public class Req {
     private boolean isLogin;
     private HttpServletRequest request;
     private HttpServletResponse response;
+
+    private Member member;
     private HttpSession session;
-    public Req(HttpServletRequest request, HttpServletResponse response) {
+    public Req(HttpServletRequest request, HttpServletResponse response, MemberService memberService) {
         this.request = request;
         this.response = response;
         loginMemberId = 0L;
         isLogin = false;
+        member = null;
         this.session = request.getSession();  // 세션 객체를 가져와야 NPE가 발생하지 않는다.
+
         if(session.getAttribute("loginMemberId") != null) {
-            isLogin = true;
-            loginMemberId = (Long) session.getAttribute("loginMemberId");
+            this.isLogin = true;
+            this.loginMemberId = (Long) session.getAttribute("loginMemberId");
+            this.member = memberService.findById(loginMemberId);
         }
     }
     /* 로그인, 로그아웃을 통한 세션 관리를 Req 클래스에서 관리한다. */

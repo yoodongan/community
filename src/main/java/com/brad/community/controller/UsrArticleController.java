@@ -30,8 +30,8 @@ public class UsrArticleController {
     public String doWrite(HttpServletRequest request, String title, String body) {
         Req req = (Req) request.getAttribute("req");
 
-        if (Ut.isEmpty(title)) Ut.historyBack("게시물 제목을 입력해주세요.");
-        if (Ut.isEmpty(body)) Ut.historyBack("게시물 내용을 입력해주세요.");
+        if (Ut.isEmpty(title)) return Ut.historyBack("게시물 제목을 입력해주세요.");
+        if (Ut.isEmpty(body)) return Ut.historyBack("게시물 내용을 입력해주세요.");
         Long articleId = articleService.writeArticle(req.getLoginMemberId(), title, body);
         return Ut.replace(Ut.f("%d번 게시물이 생성되었습니다.", articleId), "../article/list");
     }
@@ -46,7 +46,7 @@ public class UsrArticleController {
     @RequestMapping("/getArticle")
     @ResponseBody
     public DataResponse<Article> getArticle(Long id) {
-        Article article = articleService.getArticle(id);
+        Article article = articleService.findById(id);
         if(article == null) {
             return DataResponse.of("F-1", Ut.f("%d번 게시물이 존재하지 않습니다", id));
         }
@@ -65,7 +65,7 @@ public class UsrArticleController {
     public String doDelete(HttpServletRequest request, Long id) {
         Req req = (Req) request.getAttribute("req");
 
-        Article article = articleService.getArticle(id);
+        Article article = articleService.findById(id);
         if(article == null) {
             return Ut.historyBack(Ut.f("%d번 게시물이 존재하지 않습니다!", id));
         }
@@ -77,21 +77,36 @@ public class UsrArticleController {
         return Ut.replace(Ut.f("%d번 게시물이 삭제되었습니다.", id), "../article/list");
     }
 
+    @RequestMapping("/modify")
+    public String showModifyForm(HttpServletRequest request, Model model, Long id) {
+        Req req = (Req) request.getAttribute("req");
+        Article article = articleService.findById(id);
+        if(article == null) Ut.historyBack(Ut.f("%d번 게시물이 존재하지 않습니다!", id));
+        model.addAttribute("article", article);
+
+        boolean canModify = articleService.canModify(req.getLoginMemberId(), article);
+        if(!canModify) Ut.historyBack("수정 권한이 없습니다!");
+
+        return "/article/modify";
+    }
+
     @RequestMapping("/doModify")
     @ResponseBody
-    public DataResponse doModify(HttpServletRequest request, Long id, String title, String body) {
+    public String doModify(HttpServletRequest request, Long id, String title, String body) {
         Req req = (Req) request.getAttribute("req");
 
-        Article article = articleService.getArticle(id);
+        Article article = articleService.findById(id);
         if(article == null) {
-            return DataResponse.of("F-1", Ut.f("%d번 게시물이 존재하지 않습니다!", id));
+            return Ut.historyBack(Ut.f("%d번 게시물이 존재하지 않습니다!", id));
         }
 
         boolean canModify = articleService.canModify(req.getLoginMemberId(), article);
-        if(!canModify) return DataResponse.of("F-Authorization", "수정 권한이 없습니다!");
+        if(!canModify) return Ut.historyBack("수정 권한이 없습니다!");
+
+        if(Ut.isEmpty(title)) return Ut.historyBack("게시물 제목을 입력해주세요.");
 
         articleService.modifyArticle(id, title, body);
-        return DataResponse.of("S-1", Ut.f("%d번 게시물이 수정되었습니다.", id));
+        return Ut.replace(Ut.f("%d번 게시물이 수정되었습니다.", id), "../article/list");
     }
 
     @RequestMapping("/detail")
