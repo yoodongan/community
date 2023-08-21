@@ -44,7 +44,7 @@
             <div class="mt-2">
                 <c:if test="${article.temp_canDelete}">
                 <a
-                   href="../article/doModify?id=${article.id}"
+                   href="../article/modify?id=${article.id}"
                    class="mr-3 h-10 bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded">
                     수정하기
                 </a>

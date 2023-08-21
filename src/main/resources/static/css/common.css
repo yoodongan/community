@@ -21,3 +21,7 @@ html > body {
 input[type=password] {
     font-family: ".SF NS Mono";
 }
+
+.table-1 > table td.writer {
+    text-align: left;
+}
