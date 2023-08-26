@@ -1,8 +1,10 @@
 package com.brad.community.controller;
 
 import com.brad.community.service.ArticleService;
+import com.brad.community.service.BoardService;
 import com.brad.community.util.Ut;
 import com.brad.community.vo.Article;
+import com.brad.community.vo.Board;
 import com.brad.community.vo.DataResponse;
 import com.brad.community.vo.Req;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UsrArticleController {
     private final ArticleService articleService;
+    private final BoardService boardService;
 
     @RequestMapping("/write")
     public String showWriteForm() {
@@ -53,11 +56,20 @@ public class UsrArticleController {
         return DataResponse.of("S-1", Ut.f("%d번 게시물입니다.", id), article);
     }
 
+    /* 공지사항, 자유게시판에 따라 다르게 보여줘야 한다. */
     @RequestMapping("/list")
-    public String showList(Model model) {
-        List<Article> articles = articleService.findArticlesWithWriterName();
+    public String showList(Model model, Long boardId) {
+        Board board = boardService.findById(boardId);
+        if(board == null) {
+            return Ut.historyBack(Ut.f("%d번 게시물이 존재하지 않습니다!", boardId));
+        }
+
+        Integer articlesCount = articleService.getArticlesCount(boardId);
+        model.addAttribute("articlesCount", articlesCount);
+
+        List<Article> articles = articleService.findArticlesWithWriterName(boardId);
         model.addAttribute("articles", articles);
-        return "article/list";
+        return "/article/list";
     }
 
     @RequestMapping("/doDelete")

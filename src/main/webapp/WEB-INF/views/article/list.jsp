@@ -5,6 +5,11 @@
 <%@ include file="../common/head.jspf"%>
 
 <div class="container mx-auto px-3 mt-5">
+    <div class="mb-1">
+        게시물 개수 : <span class="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">
+                    ${articlesCount}
+                    </span>개
+    </div>
     <div class="table-1">
         <table class="w-full">
             <colgroup>
