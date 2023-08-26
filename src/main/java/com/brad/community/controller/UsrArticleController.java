@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
@@ -57,16 +58,21 @@ public class UsrArticleController {
 
     /* 공지사항, 자유게시판에 따라 다르게 보여줘야 한다. */
     @RequestMapping("/list")
-    public String showList(Model model, Long boardId) {
+    public String showList(Model model, @RequestParam(defaultValue = "1") Long boardId, @RequestParam(defaultValue = "1") Integer page) {
         Board board = boardService.findById(boardId);
         if(board == null) {
             return Ut.historyBack(Ut.f("%d번 게시물이 존재하지 않습니다!", boardId));
         }
+        model.addAttribute("board", board);
 
         Integer articlesCount = articleService.getArticlesCount(boardId);
         model.addAttribute("articlesCount", articlesCount);
 
-        List<Article> articles = articleService.findArticlesWithWriterName(boardId);
+        int totalPage = (int) Math.ceil((double)articlesCount / 10);
+        model.addAttribute("totalPage", totalPage);
+        model.addAttribute("page", page);
+
+        List<Article> articles = articleService.findArticlesWithWriterName(boardId, page);
         model.addAttribute("articles", articles);
         return "/article/list";
     }
