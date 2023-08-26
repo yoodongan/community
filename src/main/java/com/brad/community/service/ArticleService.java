@@ -21,8 +21,10 @@ public class ArticleService {
     public List<Article> getArticles() {
         return articleRepository.getArticles();
     }
-    public List<Article> findArticlesWithWriterName(Long boardId) {
-        return articleRepository.findArticlesWithWriterName(boardId);
+    public List<Article> findArticlesWithWriterName(Long boardId, Integer page) {
+        Integer startPage = (page-1) * 10;  // 시작 페이지는 동적으로 변한다.
+        Integer offset = 10;  // offset 은 10
+        return articleRepository.findArticlesWithWriterName(boardId, startPage, offset);
     }
 
     public Article findArticleWithWriterName(Long memberId, Long articleId) {
