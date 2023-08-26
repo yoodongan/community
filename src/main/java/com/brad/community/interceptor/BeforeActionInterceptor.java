@@ -12,8 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 @Component
 @RequiredArgsConstructor
 public class BeforeActionInterceptor implements HandlerInterceptor {
+    private final Req req;
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        req.init();
         return HandlerInterceptor.super.preHandle(request, response, handler);
     }
 }

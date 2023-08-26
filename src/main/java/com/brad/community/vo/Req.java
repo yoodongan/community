@@ -65,4 +65,7 @@ public class Req {
         print(str + "\n");
     }
 
+    /* 프록시 객체인 Req 를 초기화하는 메서드이다. */
+    public void init() {
+    }
 }
