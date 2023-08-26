@@ -2,8 +2,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <c:set var="pageTitle" value="메인"></c:set>
-<%@ include file="../common/head.jspf"%>
 
+<%@ include file="../common/head.jspf"%>
 
 <div class="container mx-auto px-3 mt-5">
     <h1>안녕하세요.</h1>

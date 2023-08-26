@@ -22,6 +22,7 @@ import java.util.List;
 public class UsrArticleController {
     private final ArticleService articleService;
     private final BoardService boardService;
+    private final Req req;
 
     @RequestMapping("/write")
     public String showWriteForm() {
@@ -31,8 +32,6 @@ public class UsrArticleController {
     @RequestMapping("/doWrite")
     @ResponseBody
     public String doWrite(HttpServletRequest request, String title, String body) {
-        Req req = (Req) request.getAttribute("req");
-
         if (Ut.isEmpty(title)) return Ut.historyBack("게시물 제목을 입력해주세요.");
         if (Ut.isEmpty(body)) return Ut.historyBack("게시물 내용을 입력해주세요.");
         Long articleId = articleService.writeArticle(req.getLoginMemberId(), title, body);
@@ -75,8 +74,6 @@ public class UsrArticleController {
     @RequestMapping("/doDelete")
     @ResponseBody
     public String doDelete(HttpServletRequest request, Long id) {
-        Req req = (Req) request.getAttribute("req");
-
         Article article = articleService.findById(id);
         if(article == null) {
             return Ut.historyBack(Ut.f("%d번 게시물이 존재하지 않습니다!", id));
@@ -91,7 +88,6 @@ public class UsrArticleController {
 
     @RequestMapping("/modify")
     public String showModifyForm(HttpServletRequest request, Model model, Long id) {
-        Req req = (Req) request.getAttribute("req");
         Article article = articleService.findById(id);
         if(article == null) Ut.historyBack(Ut.f("%d번 게시물이 존재하지 않습니다!", id));
         model.addAttribute("article", article);
@@ -105,8 +101,6 @@ public class UsrArticleController {
     @RequestMapping("/doModify")
     @ResponseBody
     public String doModify(HttpServletRequest request, Long id, String title, String body) {
-        Req req = (Req) request.getAttribute("req");
-
         Article article = articleService.findById(id);
         if(article == null) {
             return Ut.historyBack(Ut.f("%d번 게시물이 존재하지 않습니다!", id));
@@ -123,8 +117,6 @@ public class UsrArticleController {
 
     @RequestMapping("/detail")
     public String showDetail(HttpServletRequest request, Model model, Long id) {
-        Req req = (Req) request.getAttribute("req");
-
         Article article = articleService.findArticleWithWriterName(req.getLoginMemberId(), id);
         model.addAttribute("article", article);
         return "article/detail";
