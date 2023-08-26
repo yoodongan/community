@@ -31,10 +31,10 @@ public class UsrArticleController {
 
     @RequestMapping("/doWrite")
     @ResponseBody
-    public String doWrite(HttpServletRequest request, String title, String body) {
+    public String doWrite(Long boardId, String title, String body) {
         if (Ut.isEmpty(title)) return Ut.historyBack("게시물 제목을 입력해주세요.");
         if (Ut.isEmpty(body)) return Ut.historyBack("게시물 내용을 입력해주세요.");
-        Long articleId = articleService.writeArticle(req.getLoginMemberId(), title, body);
+        Long articleId = articleService.writeArticle(boardId, req.getLoginMemberId(), title, body);
         return Ut.replace(Ut.f("%d번 게시물이 생성되었습니다.", articleId), "../article/list");
     }
 

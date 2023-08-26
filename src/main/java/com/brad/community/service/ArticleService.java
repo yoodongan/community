@@ -14,8 +14,8 @@ public class ArticleService {
         this.articleRepository = articleRepository;
     }
 
-    public Long writeArticle(Long memberId, String title, String body) {
-        articleRepository.writeArticle(memberId, title, body);
+    public Long writeArticle(Long boardId, Long memberId, String title, String body) {
+        articleRepository.writeArticle(boardId, memberId, title, body);
         return articleRepository.getLastInsertId();
     }
     public List<Article> getArticles() {

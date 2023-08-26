@@ -7,7 +7,7 @@ import java.util.List;
 
 @Mapper
 public interface ArticleRepository {
-    public void writeArticle( @Param("memberId")Long memberId, @Param("title")String title, @Param("body")String body);
+    public void writeArticle(@Param("boardId")Long boardId, @Param("memberId")Long memberId, @Param("title")String title, @Param("body")String body);
     public Article findById(@Param("id") Long id);
     public void modifyArticle(Long id, String title, String body);
     public List<Article> getArticles();
