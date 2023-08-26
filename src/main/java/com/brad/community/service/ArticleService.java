@@ -21,8 +21,8 @@ public class ArticleService {
     public List<Article> getArticles() {
         return articleRepository.getArticles();
     }
-    public List<Article> findArticlesWithWriterName() {
-        return articleRepository.findArticlesWithWriterName();
+    public List<Article> findArticlesWithWriterName(Long boardId) {
+        return articleRepository.findArticlesWithWriterName(boardId);
     }
 
     public Article findArticleWithWriterName(Long memberId, Long articleId) {
@@ -60,5 +60,9 @@ public class ArticleService {
             return false;  // 회원 아이디가 다르면, 해당 게시물 삭제할 권한이 없다.
         }
         return true;
+    }
+
+    public Integer getArticlesCount(Long boardId) {
+        return articleRepository.getArticlesCount(boardId);
     }
 }

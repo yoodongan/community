@@ -15,7 +15,9 @@ public interface ArticleRepository {
     Long getLastInsertId();
 
     // 작성자명을 출력해야 하므로, Member의 작성자명을 가져온다.
-    List<Article> findArticlesWithWriterName();
+    List<Article> findArticlesWithWriterName(@Param("boardId") Long boardId);
 
     Article findArticleWithWriterName(@Param("id") Long articleId);
+
+    Integer getArticlesCount(@Param("boardId") Long boardId);
 }

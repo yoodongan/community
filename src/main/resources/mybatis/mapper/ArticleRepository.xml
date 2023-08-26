@@ -51,7 +51,20 @@
         FROM article AS A
         LEFT JOIN member AS M
         ON A.memberId = M.id
+        WHERE 1
+        <if test="boardId != 0">
+            AND A.boardId = #{boardId}
+        </if>
         ORDER BY A.id DESC
+    </select>
+
+    <select id="getArticlesCount" resultType="Integer">
+        SELECT COUNT(*) as cnt
+        FROM article as A
+        WHERE 1
+        <if test="boardId != 0">
+            AND A.boardId = #{boardId}
+        </if>
     </select>
 
     <select id="findArticleWithWriterName" resultType="Article">
