@@ -64,6 +64,7 @@ public class UsrArticleController {
             return Ut.historyBack(Ut.f("%d번 게시물이 존재하지 않습니다!", boardId));
         }
         model.addAttribute("board", board);
+        model.addAttribute("boardId", boardId);
 
         Integer articlesCount = articleService.getArticlesCount(boardId);
         model.addAttribute("articlesCount", articlesCount);
