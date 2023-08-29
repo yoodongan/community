@@ -64,7 +64,7 @@ public class ArticleService {
         return true;
     }
 
-    public Integer getArticlesCount(Long boardId) {
-        return articleRepository.getArticlesCount(boardId);
+    public Integer getArticlesCount(Long boardId, String searchKeywordType, String searchKeyword) {
+        return articleRepository.getArticlesCount(boardId, searchKeywordType, searchKeyword);
     }
 }

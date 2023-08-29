@@ -57,8 +57,10 @@ public class UsrArticleController {
     }
 
     /* 공지사항, 자유게시판에 따라 다르게 보여줘야 한다. */
+    /* 검색타입, 검색어에 따라 총 게시물 수를 계산할 수 있어야 한다. */
     @RequestMapping("/list")
-    public String showList(Model model, @RequestParam(defaultValue = "1") Long boardId, @RequestParam(defaultValue = "1") Integer page) {
+    public String showList(Model model, @RequestParam(defaultValue = "1") Long boardId, @RequestParam(defaultValue = "1") Integer page,
+                           @RequestParam(defaultValue = "title,body") String searchKeywordType, @RequestParam(defaultValue = "") String searchKeyword) {
         Board board = boardService.findById(boardId);
         if(board == null) {
             return Ut.historyBack(Ut.f("%d번 게시물이 존재하지 않습니다!", boardId));
@@ -66,7 +68,7 @@ public class UsrArticleController {
         model.addAttribute("board", board);
         model.addAttribute("boardId", boardId);
 
-        Integer articlesCount = articleService.getArticlesCount(boardId);
+        Integer articlesCount = articleService.getArticlesCount(boardId, searchKeywordType, searchKeyword);
         model.addAttribute("articlesCount", articlesCount);
 
         int totalPage = (int) Math.ceil((double)articlesCount / 10);

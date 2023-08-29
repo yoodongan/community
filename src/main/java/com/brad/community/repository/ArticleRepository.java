@@ -20,4 +20,6 @@ public interface ArticleRepository {
     Article findArticleWithWriterName(@Param("id") Long articleId);
 
     Integer getArticlesCount(@Param("boardId") Long boardId);
+
+    Integer getArticlesCount(Long boardId, String searchKeywordType, String searchKeyword);
 }
