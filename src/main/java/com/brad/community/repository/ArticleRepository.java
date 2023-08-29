@@ -22,4 +22,6 @@ public interface ArticleRepository {
     Integer getArticlesCount(@Param("boardId") Long boardId);
 
     Integer getArticlesCount(Long boardId, String searchKeywordType, String searchKeyword);
+
+    List<Article> findArticlesWithWriterName(Long boardId, Integer startPage, Integer offset, String searchKeywordType, String searchKeyword);
 }

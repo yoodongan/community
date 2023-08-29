@@ -75,7 +75,7 @@ public class UsrArticleController {
         model.addAttribute("totalPage", totalPage);
         model.addAttribute("page", page);
 
-        List<Article> articles = articleService.findArticlesWithWriterName(boardId, page);
+        List<Article> articles = articleService.findArticlesWithWriterName(boardId, page, searchKeywordType, searchKeyword);
         model.addAttribute("articles", articles);
         return "/article/list";
     }
