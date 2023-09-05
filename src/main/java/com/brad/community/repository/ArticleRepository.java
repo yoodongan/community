@@ -24,4 +24,8 @@ public interface ArticleRepository {
     Integer getArticlesCount(Long boardId, String searchKeywordType, String searchKeyword);
 
     List<Article> findArticlesWithWriterName(Long boardId, Integer startPage, Integer offset, String searchKeywordType, String searchKeyword);
+
+    Integer increaseHitCount(Long id);
+
+    Integer findHitCountById(Long id);
 }

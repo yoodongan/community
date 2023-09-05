@@ -14,6 +14,7 @@ public class Article {
     private String updateDate;
     private String title;
     private String body;
+    private Integer hitCount;
 
     private String temp_writerName;
     private boolean temp_canDelete;

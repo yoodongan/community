@@ -67,4 +67,14 @@ public class ArticleService {
     public Integer getArticlesCount(Long boardId, String searchKeywordType, String searchKeyword) {
         return articleRepository.getArticlesCount(boardId, searchKeywordType, searchKeyword);
     }
+
+    public boolean increaseHitcount(Long id) {
+        Integer rowCount = articleRepository.increaseHitCount(id);
+        if(rowCount == 0) return false;
+        return true;
+    }
+
+    public Integer getHitCount(Long id) {
+        return articleRepository.findHitCountById(id);
+    }
 }
