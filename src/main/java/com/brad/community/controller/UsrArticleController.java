@@ -130,4 +130,14 @@ public class UsrArticleController {
         model.addAttribute("article", article);
         return "article/detail";
     }
+
+    @RequestMapping("/doIncreaseHitCount")
+    @ResponseBody
+    public DataResponse doIncreaseHitcount(Long id) {
+        boolean canIncreaseHitCount = articleService.increaseHitcount(id);
+        if(!canIncreaseHitCount) return DataResponse.of("F-1", "조회 수 증가할 게시물이 존재하지 않습니다!");
+
+        Integer hitCount = articleService.getHitCount(id);
+        return DataResponse.of("S-1", "조회 수 증가 성공", hitCount);
+    }
 }
