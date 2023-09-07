@@ -5,10 +5,29 @@
 <%@ include file="../common/head.jspf"%>
 
 <div class="container mx-auto px-3 mt-5">
-    <div class="mb-1">
-        게시물 개수 : <span class="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">
-                    ${articlesCount}
-                    </span>개
+    <div class="flex justify-between">
+        <div class="mb-1">
+            게시물 개수 : <span class="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300">
+                        ${articlesCount}
+                        </span>개
+        </div>
+
+        <form class="flex mb-3">
+            <input type="hidden" name="boardId" value="${param.boardId}"/>
+
+            <select name="searchKeywordTypeCode" class="mr-1 cursor-pointer h-10 bg-transparent text-green-700 py-2  border border-green-500 rounded">
+                <option disabled="disabled">검색 타입</option>
+                <option value="title">제목</option>
+                <option value="body">내용</option>
+                <option value="title,body">제목,내용</option>
+            </select>
+
+            <input name="searchKeyword" type="text" class="bg-gray-50 border text-gray-900 text-sm rounded block p-2 mr-1 dark:bg-gray-700 border-green-500 dark:placeholder-gray-400" placeholder="검색어" maxlength="20" value="${param.searchKeyword}" />
+
+            <button type="submit" class="cursor-pointer h-10 bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded">검색</button>
+        </form>
+
+
     </div>
     <div class="table-1">
         <table class="w-full">
@@ -18,6 +37,7 @@
                 <col width="100"/>
                 <col width="100"/>
                 <col width="100"/>
+                <col width="20"/>
             </colgroup>
             <thead>
             <tr>
@@ -26,6 +46,7 @@
                 <th>작성자</th>
                 <th>작성날짜</th>
                 <th>수정날짜</th>
+                <th>조회</th>
             </tr>
             </thead>
             <tbody>
@@ -38,6 +59,7 @@
                     <td>${article.temp_writerName}</td>
                     <td>${article.regDate.substring(2,16)}</td>
                     <td>${article.updateDate.substring(2,16)}</td>
+                    <td>${article.hitCount}</td>
                 </tr>
             </c:forEach>
             </tbody>

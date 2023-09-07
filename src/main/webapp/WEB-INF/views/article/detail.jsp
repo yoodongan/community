@@ -5,6 +5,32 @@
 
 <%@ include file="../common/head.jspf"%>
 
+<script>
+    const params = {};
+    params.id = parseInt('${param.id}');
+
+    function increaseHitCount() {
+        const localStorageKey = 'articleId : ' + params.id + ', alreadyWatched';
+
+        if ( localStorage.getItem(localStorageKey) ) {
+            return;
+        }
+
+        localStorage.setItem(localStorageKey, true);
+
+        $.get('../article/doIncreaseHitCount', {
+            id : params.id,
+            ajaxMode: 'Y'
+        }, function(data) {
+            $('.hitCount').empty().html(data.data);
+        }, 'json');
+    }
+
+    $(function() {
+        increaseHitCount();
+    })
+</script>
+
 <section class="mt-5">
     <div class="container mx-auto px-3">
         <div class="table-1">
@@ -24,6 +50,10 @@
                 <tr>
                     <th>내용</th>
                     <td>${article.body}</td>
+                </tr>
+                <tr>
+                    <th>조회수</th>
+                    <td class="hitCount">${article.hitCount}</td>
                 </tr>
                 <tr>
                     <th>작성자</th>
