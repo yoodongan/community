@@ -77,4 +77,8 @@ public class ArticleService {
     public Integer getHitCount(Long id) {
         return articleRepository.findHitCountById(id);
     }
+
+    public boolean canDoReaction(Long memberId, Long articleId) {
+        return articleRepository.canDoReaction(memberId, articleId) == 0; // 0 이면, 아직 좋아요나 싫어요를 누르지 않은 것이다.
+    }
 }

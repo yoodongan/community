@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -82,7 +81,7 @@ public class UsrArticleController {
 
     @RequestMapping("/doDelete")
     @ResponseBody
-    public String doDelete(HttpServletRequest request, Long id) {
+    public String doDelete(Long id) {
         Article article = articleService.findById(id);
         if(article == null) {
             return Ut.historyBack(Ut.f("%d번 게시물이 존재하지 않습니다!", id));
@@ -96,7 +95,7 @@ public class UsrArticleController {
     }
 
     @RequestMapping("/modify")
-    public String showModifyForm(HttpServletRequest request, Model model, Long id) {
+    public String showModifyForm(Model model, Long id) {
         Article article = articleService.findById(id);
         if(article == null) Ut.historyBack(Ut.f("%d번 게시물이 존재하지 않습니다!", id));
         model.addAttribute("article", article);
@@ -109,7 +108,7 @@ public class UsrArticleController {
 
     @RequestMapping("/doModify")
     @ResponseBody
-    public String doModify(HttpServletRequest request, Long id, String title, String body) {
+    public String doModify(Long id, String title, String body) {
         Article article = articleService.findById(id);
         if(article == null) {
             return Ut.historyBack(Ut.f("%d번 게시물이 존재하지 않습니다!", id));
@@ -125,9 +124,12 @@ public class UsrArticleController {
     }
 
     @RequestMapping("/detail")
-    public String showDetail(HttpServletRequest request, Model model, Long id) {
+    public String showDetail(Model model, Long id) {
         Article article = articleService.findArticleWithWriterName(req.getLoginMemberId(), id);
         model.addAttribute("article", article);
+
+        boolean canDoReaction = articleService.canDoReaction(req.getLoginMemberId(), id);
+        model.addAttribute("canDoReaction", canDoReaction);
         return "article/detail";
     }
 
