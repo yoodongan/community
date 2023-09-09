@@ -130,4 +130,11 @@
         FROM article
         WHERE id = #{id}
     </select>
+
+    <select id="canDoReaction" resultSets="Integer">
+        SELECT IFNULL(SUM(R.point), 0)
+        FROM reaction AS R
+        WHERE R.articleId = #{articleId}
+        AND R.memberId = #{memberId}
+    </select>
 </mapper>

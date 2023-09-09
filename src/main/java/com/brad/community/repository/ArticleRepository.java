@@ -28,4 +28,6 @@ public interface ArticleRepository {
     Integer increaseHitCount(Long id);
 
     Integer findHitCountById(Long id);
+
+    Integer canDoReaction(Long memberId, Long articleId);
 }
