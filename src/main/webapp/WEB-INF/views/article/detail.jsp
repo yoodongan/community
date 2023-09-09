@@ -41,7 +41,23 @@
                 <tbody>
                 <tr>
                     <th>번호</th>
-                    <td>${article.id}</td>
+
+                    <td class="relative">
+                        ${article.id}
+
+                        <c:if test="${canDoReaction}">
+                        <div class="absolute right-5 top-3">
+                            <a
+                                class="mr-3 h-10 bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded">
+                                좋아요👍
+                            </a>
+                            <a
+                               class="h-10 bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded">
+                                싫어요👎</a>
+                        </div>
+                        </c:if>
+                    </td>
+
                 </tr>
                 <tr>
                     <th>제목</th>
