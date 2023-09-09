@@ -48,36 +48,41 @@
     </select>
 
     <select id="findArticlesWithWriterName" resultType="Article">
-        SELECT A.*, M.nickname AS temp_writerName
-        FROM article AS A
-        LEFT JOIN member AS M
-        ON A.memberId = M.id
-        WHERE 1
-        <if test="boardId != 0">
-            AND A.boardId = #{boardId}
-        </if>
-        <if test="searchKeywordType != ''">
-            <choose>
-                <when test="searchKeywordType == 'title'">
-                    AND A.title LIKE CONCAT('%', #{searchKeyword}, '%')
-                </when>
-                <when test="searchKeywordType == 'body'">
-                    AND A.body LIKE CONCAT('%', #{searchKeyword}, '%')
-                </when>
-                <otherwise>
-                    AND (
-                    A.title LIKE CONCAT('%', #{searchKeyword}, '%')
-                    OR
-                    A.body LIKE CONCAT('%', #{searchKeyword}, '%')
-                    )
-                </otherwise>
-            </choose>
-        </if>
-        ORDER BY A.id DESC
-        <if test="startPage != -1">
-            LIMIT #{startPage}, #{offset}
-        </if>
-
+        SELECT A.*,
+               SUM(IF(R.point &gt; 0, R.point, 0)) AS temp_sumLikePoint
+        FROM(
+            SELECT A.*, M.nickname AS temp_writerName
+            FROM article AS A
+            LEFT JOIN member AS M
+            ON A.memberId = M.id
+            WHERE 1
+            <if test="boardId != 0">
+                AND A.boardId = #{boardId}
+            </if>
+            <if test="searchKeywordType != ''">
+                <choose>
+                    <when test="searchKeywordType == 'title'">
+                        AND A.title LIKE CONCAT('%', #{searchKeyword}, '%')
+                    </when>
+                    <when test="searchKeywordType == 'body'">
+                        AND A.body LIKE CONCAT('%', #{searchKeyword}, '%')
+                    </when>
+                    <otherwise>
+                        AND (
+                        A.title LIKE CONCAT('%', #{searchKeyword}, '%')
+                        OR
+                        A.body LIKE CONCAT('%', #{searchKeyword}, '%')
+                        )
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="startPage != -1">
+                LIMIT #{startPage}, #{offset}
+            </if>
+        ) AS A
+        LEFT JOIN reaction AS R
+        ON A.id = R.articleId
+        GROUP BY A.id
     </select>
 
     <select id="getArticlesCount" resultType="Integer">

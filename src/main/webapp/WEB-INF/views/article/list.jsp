@@ -38,6 +38,7 @@
                 <col width="100"/>
                 <col width="100"/>
                 <col width="20"/>
+                <col width="20"/>
             </colgroup>
             <thead>
             <tr>
@@ -46,6 +47,7 @@
                 <th>작성자</th>
                 <th>작성날짜</th>
                 <th>수정날짜</th>
+                <th>추천수</th>
                 <th>조회</th>
             </tr>
             </thead>
@@ -60,6 +62,7 @@
                     <td>${article.regDate.substring(2,16)}</td>
                     <td>${article.updateDate.substring(2,16)}</td>
                     <td>${article.hitCount}</td>
+                    <td>${article.temp_sumLikePoint}</td>
                 </tr>
             </c:forEach>
             </tbody>

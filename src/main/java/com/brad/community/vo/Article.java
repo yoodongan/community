@@ -16,6 +16,7 @@ public class Article {
     private String body;
     private Integer hitCount;
 
+    private Integer temp_sumLikePoint;
     private String temp_writerName;
     private boolean temp_canDelete;
 }
